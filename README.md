@@ -1,18 +1,8 @@
 # Kamile Sor Test Otomasyonu
 
-Bu proje, https://kamilesor.com web sitesi için Selenium ve Python kullanılarak geliştirilmiş kapsamlı bir test otomasyon framework'üdür. Page Object Model (POM) tasarım deseni kullanılarak yapılandırılmıştır.
+Bu proje, https://kamilesor.com sitesinde kayıt olma işlemini test etmek için Selenium ve Python kullanılarak oluşturulmuş bir test otomasyon projesidir.
 
-## 🚀 Özellikler
-
-- ✅ **Kullanıcı Kaydı Testleri** - Yeni kullanıcı kaydı senaryolarını test eder
-- ✅ **Login Testleri** - Kullanıcı girişi ve doğrulama testleri
-- ✅ **Doktor Chat Testleri** - Chat fonksiyonellik testleri
-- ✅ **Page Object Model (POM)** - Sürdürülebilir ve ölçeklenebilir test yapısı
-- ✅ **HTML Test Raporları** - pytest-html ile detaylı test raporları
-- ✅ **Screenshot Yönetimi** - Hata durumlarında otomatik ekran görüntüsü
-- ✅ **Dinamik Test Verileri** - Her test için benzersiz veriler
-
-## 📁 Proje Yapısı
+## Proje Yapısı
 
 ```
 automation_test_kamilesor/
@@ -101,123 +91,51 @@ run_specific_test.bat
 
 **Tüm testleri çalıştır:**
 ```bash
-pytest tests/ -v -s --html=test-reports/test-report.html --self-contained-html
+pytest -v -s
 ```
 
-**Sadece kayıt testlerini çalıştır:**
-```bash
-pytest tests/test_1_registration.py -v -s
-```
+### 3. Yapılandırma
 
-**Sadece login testlerini çalıştır:**
-```bash
-pytest tests/test_2_login.py -v -s
-```
+`config.py` dosyasından aşağıdaki ayarları değiştirebilirsiniz:
+- `BASE_URL`: Test edilecek site URL'i
+- `BROWSER`: Kullanılacak tarayıcı (chrome, firefox, edge)
+- `IMPLICIT_WAIT`: Örtük bekleme süresi (saniye)
+- `EXPLICIT_WAIT`: Açık bekleme süresi (saniye)
 
-**Sadece chat testlerini çalıştır:**
-```bash
-pytest tests/test_3_doctor_chat.py -v -s
-```
+## Önemli Notlar
 
-## 📊 Test Raporları
+1. **Locator'lar**: Test kodlarındaki element locator'ları (ID, XPath, vb.) örnek olarak verilmiştir. Gerçek site yapısına göre güncellemeniz gerekmektedir.
 
-Test çalıştırıldıktan sonra HTML raporu `test-reports/test-report.html` dosyasında oluşturulur. Bu rapor şunları içerir:
+2. **Test Verileri**: Email adresleri ve kullanıcı bilgileri her testte değiştirilmelidir, aksi takdirde "Email zaten kayıtlı" hatası alabilirsiniz.
 
-- Test sonuçları (Pass/Fail)
-- Test süresi
-- Hata mesajları
-- Screenshot'lar (başarısız testler için)
+3. **Ekran Görüntüsü**: Test başarısız olduğunda otomatik olarak `registration_error.png` adında ekran görüntüsü alınır.
 
-## 🏗️ Page Object Model (POM)
+## İki Test Yaklaşımı
 
-Proje, Page Object Model tasarım desenini kullanır:
+### 1. test_registration.py
+- Basit ve doğrudan test yaklaşımı
+- Hızlı prototipleme için uygundur
 
-- **base_page.py**: Tüm sayfa sınıflarının miras aldığı temel sınıf
-- **registration_page.py**: Kayıt sayfası işlemleri
-- **login_page.py**: Giriş sayfası işlemleri
-- **chat_page.py**: Chat sayfası işlemleri
+### 2. test_registration_pom.py
+- Page Object Model (POM) design pattern kullanır
+- Daha sürdürülebilir ve ölçeklenebilir
+- Büyük projeler için önerilir
+- Kod tekrarını azaltır
 
-### Örnek Kullanım
+## Geliştirme Önerileri
 
-```python
-from pages.login_page import LoginPage
+1. Test verilerini harici bir dosyadan (JSON, Excel) okuyabilirsiniz
+2. Farklı tarayıcılar için cross-browser testing ekleyebilirsiniz
+3. Allure veya HTML rapor oluşturucuları ekleyebilirsiniz
+4. CI/CD pipeline'a entegre edebilirsiniz (GitHub Actions, Jenkins, vb.)
 
-def test_login(driver):
-    login_page = LoginPage(driver)
-    login_page.login("user@example.com", "password123")
-    assert login_page.is_login_successful()
-```
+## Sorun Giderme
 
-## 🛠️ Yapılandırma
+- **ChromeDriver hatası**: `webdriver-manager` otomatik olarak driver'ı indirir, internet bağlantınızı kontrol edin
+- **Element bulunamadı**: Locator'ları kontrol edin ve bekleme sürelerini artırın
+- **Test çok hızlı**: `time.sleep()` değerlerini artırabilirsiniz
 
-`config.py` dosyasında aşağıdaki ayarları değiştirebilirsiniz:
-
-```python
-BASE_URL = "https://kamilesor.com"
-BROWSER = "chrome"              # chrome, firefox, edge
-IMPLICIT_WAIT = 10              # Saniye
-EXPLICIT_WAIT = 20              # Saniye
-HEADLESS = False                # True: Tarayıcı görünmeden çalışır
-SCREENSHOT_ON_FAILURE = True    # Hata durumunda screenshot al
-```
-
-## 🔍 Test Verileri
-
-Test verileri dinamik olarak `utils/test_data_helper.py` kullanılarak oluşturulur:
-
-- Benzersiz email adresleri
-- Rastgele kullanıcı adları
-- Güvenli şifreler
-- Telefon numaraları
-
-## 📝 Test Senaryoları
-
-### 1. Kayıt Testleri (`test_1_registration.py`)
-- Yeni kullanıcı kaydı
-- Form validasyonu
-- Başarılı kayıt doğrulama
-
-### 2. Login Testleri (`test_2_login.py`)
-- Geçerli kimlik bilgileriyle giriş
-- Geçersiz kimlik bilgileriyle giriş
-- Şifre hatırlatma
-
-### 3. Chat Testleri (`test_3_doctor_chat.py`)
-- Doktor ile chat başlatma
-- Mesaj gönderme
-- Chat geçmişi kontrolü
-
-## 🐛 Sorun Giderme
-
-### ChromeDriver Hatası
-```
-webdriver-manager otomatik olarak driver'ı indirir.
-İnternet bağlantınızı kontrol edin.
-```
-
-### Element Bulunamadı
-```
-- Locator'ları kontrol edin
-- Bekleme sürelerini artırın (config.py)
-- Sayfanın tamamen yüklendiğinden emin olun
-```
-
-### Import Hataları
-```bash
-# Python path'ini kontrol edin
-set PYTHONPATH=%PYTHONPATH%;%CD%  # Windows
-export PYTHONPATH=$PYTHONPATH:$(pwd)  # Linux/Mac
-```
-
-## 🤝 Katkıda Bulunma
-
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'Add some amazing feature'`)
-4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
-5. Pull Request oluşturun
-
-## 📄 Lisans
+## Lisans
 
 Bu proje test ve eğitim amaçlı geliştirilmiştir.
 
