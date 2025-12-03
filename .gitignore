@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Test results
+.pytest_cache/
+htmlcov/
+.coverage
+*.log
+
+# Screenshots
+*.png
+!docs/*.png
+
+# Test Reports
+test-reports/*.html
+test-reports/assets/
+.pytest_cache/
+
+# ChromeDriver
+chromedriver.exe
+chromedriver-win64/
+chromedriver-win64.zip
+LICENSE.chromedriver
+THIRD_PARTY_NOTICES.chromedriver
+
+# Explore scripts (geçici dosyalar)
+explore_*.py
+*_page_source.html
+*_screenshot.png
+
+# Sensitive data
+config.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
