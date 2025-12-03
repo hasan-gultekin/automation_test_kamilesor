@@ -1,6 +1,6 @@
 # Kamile Sor Test Otomasyonu
 
-Bu proje, https://kamilesor.com sitesinde kayıt olma işlemini test etmek için Selenium ve Python kullanılarak oluşturulmuş bir test otomasyon projesidir.
+Bu proje, https://kamilesor.com sitesinde kayıt olma, login ve login sonrası chat işlemini test etmek için Selenium ve Python kullanılarak oluşturulmuş bir test otomasyon projesidir.
 
 ## Proje Yapısı
 
@@ -63,6 +63,11 @@ pytest test_registration_pom.py -v -s
 **Tüm testleri çalıştır:**
 ```bash
 pytest -v -s
+```
+
+**Tüm testleri çalıştır ve rapor oluştur:**
+```bash
+run_tests.bat
 ```
 
 ### 3. Yapılandırma
